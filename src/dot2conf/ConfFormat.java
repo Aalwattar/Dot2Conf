@@ -17,6 +17,9 @@ public class ConfFormat {
         Node cur_node;
         int i, j;
         
+        ArrayList<String> task_types;
+        task_types = new ArrayList();
+        
         // print name
         confFilename = filename.replace(".dot", ".conf");
         outStream = new PrintWriter(new FileOutputStream("conf_files/" + confFilename));
@@ -69,7 +72,11 @@ public class ConfFormat {
         for(i=0; i<node.size(); i++){
             cur_node = node.get(i);
             outStream.println("task " + cur_node.getName() + " { ");
-            outStream.println("\ttype = " + cur_node.getType());
+//            outStream.println("\ttype = " + cur_node.getType());
+
+            if(!task_types.contains(cur_node.getType()))
+                task_types.add(cur_node.getType());
+            outStream.println("\ttype = " + task_types.indexOf(cur_node.getType()));
             
             // each nodes input
             inputs = cur_node.getInputs();
