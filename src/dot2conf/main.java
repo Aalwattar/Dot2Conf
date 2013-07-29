@@ -1,16 +1,23 @@
 package dot2conf;
 
 // FIXME - have an interface between conf and dot as the main (not this pooly named class ...)
+
+import java.io.File;
+
 public class main {
     
     public static void main(String[] args) {
-        String filename = "MPEG - Motion Vectors.dot";
-        try{
-            DotGraph original = new DotGraph("dot_files/" + filename);
-            ConfFormat.writeToFile(filename, original.getNodes());
-        }
-        catch(Exception e){
-            e.printStackTrace();
+        File folder = new File("dot_files");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            try{
+                DotGraph original = new DotGraph("dot_files/" + listOfFiles[i].getName());
+                ConfFormat.writeToFile(listOfFiles[i].getName(), original.getNodes());
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

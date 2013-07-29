@@ -55,7 +55,7 @@ public class ConfFormat {
         
         
         // print registers
-        buffer = "registers = { ";
+        buffer = "regs = { ";
         for(i=0; i<node.size(); i++){
             if(node.get(i).getOutput().startsWith("r"))
                 buffer = buffer + node.get(i).getOutput() + ", ";
