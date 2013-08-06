@@ -23,21 +23,21 @@ public class ConfFormat {
         // print name
         confFilename = filename.replace(".dot", ".conf");
         outStream = new PrintWriter(new FileOutputStream("conf_files/" + confFilename));
-        outStream.println("Name= \"" + confFilename + "\"");
+        outStream.println("Name=\"" + confFilename + "\"");
         
         // print date
         date = new Date();
-        outStream.printf("%s %tB %<te, %<tY %s", "Date= \"", date, "\"\n\n");
+        outStream.printf("%s %tB %<te, %<tY %s", "Date=\"", date, "\"\n\n");
         
         
         // print inputs
-        buffer = "inputs = { ";
+        buffer = "inputs ={";
         for(i=0; i<node.size(); i++){
             inputs = node.get(i).getInputs();
             
             for(j=0; j<inputs.size(); j++)
                 if(inputs.get(j).startsWith("c"))
-                    buffer = buffer + inputs.get(j) + ", ";
+                    buffer = buffer + inputs.get(j) + ",";
         }
         buffer = buffer.substring(0, buffer.lastIndexOf(","));
         buffer = buffer + "}";
@@ -45,10 +45,10 @@ public class ConfFormat {
         
         
         // print outputs
-        buffer = "outputs = { ";
+        buffer = "outputs ={";
         for(i=0; i<node.size(); i++){
             if(node.get(i).getOutput().startsWith("o"))
-                buffer = buffer + node.get(i).getOutput() + ", ";
+                buffer = buffer + node.get(i).getOutput() + ",";
         }
         
         // FIXME - instead of using this cheat pass the register_coutner, input_coutner and output_counter from dotGraph somehow
@@ -58,10 +58,10 @@ public class ConfFormat {
         
         
         // print registers
-        buffer = "regs = { ";
+        buffer = "regs ={";
         for(i=0; i<node.size(); i++){
             if(node.get(i).getOutput().startsWith("r"))
-                buffer = buffer + node.get(i).getOutput() + ", ";
+                buffer = buffer + node.get(i).getOutput() + ",";
         }
         // FIXME - assumes that there is at least one register (WHICH MAY NOT BE THE CASE)
         buffer = buffer.substring(0, buffer.lastIndexOf(","));
@@ -71,27 +71,27 @@ public class ConfFormat {
         // print each node
         for(i=0; i<node.size(); i++){
             cur_node = node.get(i);
-            outStream.println("task " + cur_node.getName() + " { ");
+            outStream.println("task " + cur_node.getName() + " {");
+            
 //            outStream.println("\ttype = " + cur_node.getType());
-
             if(!task_types.contains(cur_node.getType()))
                 task_types.add(cur_node.getType());
-            outStream.println("\ttype = " + task_types.indexOf(cur_node.getType()));
+            outStream.println("\ttype =" + (task_types.indexOf(cur_node.getType()) + 1));
             
             // each nodes input
             inputs = cur_node.getInputs();
-            outStream.print("\tinputs = { ");
+            outStream.print("\tinputs ={");
             for(j=0; j<inputs.size();j++){
                 outStream.print(inputs.get(j));
                 
                 if(j < inputs.size() - 1)
-                    outStream.print(", ");
+                    outStream.print(",");
             }
             outStream.println("}");
             
             
             // each nodes output
-            outStream.println("\toutput = " + cur_node.getOutput());
+            outStream.println("\toutput =" + cur_node.getOutput());
             outStream.println("}");
         }
         
