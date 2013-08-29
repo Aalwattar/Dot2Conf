@@ -1,9 +1,18 @@
+/**
+ * Description: dot2conf
+ * @author Jennfier Winer
+ */
 package dot2conf;
-
-// FIXME - have an interface between conf and dot as the main (not this pooly named class ...)
 
 import java.io.File;
 
+// FIXME - have an interface between conf and dot as the main (not this pooly named class ...)
+
+/**
+ * This class is the procedural main class that runs the program
+ * 
+ * @author Jennifer Winer
+ */
 public class main {
     
     public static void main(String[] args) {
@@ -22,6 +31,9 @@ public class main {
     }
 }
 
+
+/** The names of all of our open source benchmarks **/
+/** Taken from http://express.ece.ucsb.edu/benchmark/ **/
 
 //Auto Regression Filter.dot
 //Cosine 1.dot

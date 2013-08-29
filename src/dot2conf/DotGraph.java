@@ -1,42 +1,47 @@
+/**
+ * Description: dot2conf
+ * @author Jennfier Winer
+ */
 package dot2conf;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Parses a graph in DOT format
+ * The graph is represented internally by a series of nodes.
+ * @author jennifer
+ */
 public class DotGraph {
 
     private Scanner input;
     private ArrayList<Node> node;
-    int input_counter;
-    int output_counter;
-    int register_counter;
-//    private Integer[][] matrix;
+    private int input_counter;
+    private int output_counter;
+    private int register_counter;
 
-    // "dot_files/Auto_Regression_Filter.dot" 
+    /*
+     * Constructor that imports a DFG from a DOT file
+     * @param filename The name of the task graph DOT format
+     * @throws Exception if the provided file was improperly formatted
+     */
     DotGraph(String filename) throws Exception {
         importNodes(filename);
         importEdges(filename);
+        initIO();
     }
-
-//    private void initMatrix() {
-//        int num_nodes = node.size();
-//        int i, j;
-//
-//        matrix = new Integer[num_nodes][num_nodes];
-//
-//        for (i = 0; i < num_nodes; i++) {
-//            for (j = 0; j < num_nodes; j++) {
-//                matrix[i][j] = 0;
-//            }
-//        }
-//    }
-
+    
+    /*
+     * Initialize the nodes of the DFG
+     * @param filename The name of the task graph DOT format
+     * @throws Exception if the file could not be opened (or found)
+     */
     private void importNodes(String filename) throws Exception {
         String buffer;
         
         input = new Scanner(new File(filename));
-        node = new ArrayList<Node>();
+        node = new ArrayList<>();
 
         while (input.hasNextLine()) {
             buffer = input.nextLine();
@@ -47,17 +52,21 @@ public class DotGraph {
                     || buffer.trim().length() < 1) {
                 continue;
             }
-
             node.add(new Node(buffer));
         }
-
+        
         input.close();
     }
 
+    
+    /*
+     * Initialize the edges of the DFG
+     * @param filename The name of the task graph DOT format
+     * @throws Exception if the file could not be opened (or found)
+     */
     private void importEdges(String filename) throws Exception {
         String buffer;
 
-        input_counter = output_counter = register_counter = 0;
         input = new Scanner(new File(filename));
 
         while (input.hasNextLine()) {
@@ -68,10 +77,13 @@ public class DotGraph {
             }
         }
         input.close();
-        
-        initIO();
     }
 
+    
+    /*
+     * Connect two nodes in the DFG with a directed edge 
+     * @param line The DOT formatted edge
+     */
     private void parseEdge(String line) {
         String token[];
         String parent_name, child_name;
@@ -103,9 +115,15 @@ public class DotGraph {
         }
     }
     
+    /*
+     * Label the input and output of each node
+     * This function should only be called LAST (after all nodes and edges have been imported)
+     */
     private void initIO(){
         Node cur_node;
         int i, j;
+        
+        input_counter = output_counter = register_counter = 0;
         
         for(i=0; i<node.size(); i++){
             cur_node = node.get(i);
@@ -117,22 +135,11 @@ public class DotGraph {
                 cur_node.setOutput("o" + output_counter++);
         }
     }
-
-//    void printMatrix(){
-//        int i, j;
-//        
-//        for(i=0; i<node.size(); i++)
-//            System.out.printf("%s\t", node.get(i).getName());
-//        
-//        for(i=0; i<node.size(); i++){
-//            System.out.print("\n" + node.get(i).getName());
-//            for(j=0; j<node.size(); j++){
-//                System.out.print("\t" + matrix[i][j]);
-//            }
-//        }
-//    }
-    
+       
     // FIXME - make an interface instead of just passing structures!
+    /*
+     * Return the internal representation of the DFG ...  a horrible idea, I know.
+     */
     ArrayList<Node> getNodes(){
         return new ArrayList<>(node);
     }

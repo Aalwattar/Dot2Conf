@@ -1,3 +1,7 @@
+/**
+ * Description: dot2conf
+ * @author Jennfier Winer
+ */
 package dot2conf;
 
 import java.io.FileOutputStream;
@@ -5,10 +9,18 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Translates a series of Nodes into conf format
+ */
 public class ConfFormat {
     static private PrintWriter outStream;
     
-    
+    /*
+     * Print the nodes to a file
+     * @param filename The name of the output file
+     * @param node The task graph, as represented by an array of Nodes
+     * @throws Exception If the filename provided cannot be opened or written to
+     */
     static void writeToFile(String filename, ArrayList<Node> node) throws Exception{
         String confFilename;
         String buffer;

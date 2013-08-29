@@ -1,14 +1,25 @@
+/**
+ * Description: dot2conf
+ * @author Jennfier Winer
+ */
 package dot2conf;
 
 import java.util.ArrayList;
 
+/*
+ * Represents one node in a DFG
+ */
 public class Node {
-    private String name;
-    private String type;
+    private String name;    // label of that node
+    private String type;    // task type associated with that node
     
-    private ArrayList<String> input;
-    private String output;
+    private ArrayList<String> input;    // The names of the inputs to each node
+    private String output;              // The name of the output
 
+    /*
+     * Constructor
+     * @param dotLine The DOT formatted declaration of a node
+     */
     Node(String dotLine) {
         String token[] = dotLine.split("\\[ *label *=|\\] *;");
 
